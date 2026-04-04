@@ -27,11 +27,11 @@ internal class DefaultGlobalCssStyleProvider private constructor(
         |  }
         |  .${cssClassNameProvider.rootClassName}.${cssClassNameProvider.mainContentClassName} {
         |    width: 100%;
-        |    overflow-wrap: break-word;
         |    padding: 0 8px;
         |  }
         |  .${cssClassNameProvider.rootClassName}.${cssClassNameProvider.mainContentClassName} pre {
-        |    white-space: pre-wrap;
+        |    white-space: pre;
+        |    tab-size: 8;
         |  }
         |  .${cssClassNameProvider.rootClassName}.${cssClassNameProvider.mainContentClassName} blockquote {
         |    margin: auto 0 auto 0.8ex !important;
