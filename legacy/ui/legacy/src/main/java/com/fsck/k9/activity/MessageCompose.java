@@ -380,6 +380,19 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
                 getSupportLoaderManager(), this);
 
         messageContentView = findViewById(R.id.message_content);
+        messageContentView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_TAB && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    EditText editText = (EditText) v;
+                    int start = editText.getSelectionStart();
+                    int end = editText.getSelectionEnd();
+                    editText.getText().replace(Math.min(start, end), Math.max(start, end), "\t", 0, 1);
+                    return true;
+                }
+                return false;
+            }
+        });
         messageContentView.getInputExtras(true).putBoolean("allowEmoji", true);
 
         attachmentsView = findViewById(R.id.attachments);
