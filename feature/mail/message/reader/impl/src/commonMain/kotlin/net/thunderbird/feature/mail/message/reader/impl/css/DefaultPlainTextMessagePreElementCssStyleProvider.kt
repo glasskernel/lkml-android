@@ -14,8 +14,8 @@ class DefaultPlainTextMessagePreElementCssStyleProvider(
     override val style: String = """
         |<style>
         |  pre.${cssClassNameProvider.plainTextMessagePreClassName} {
-        |    white-space: pre-wrap;
-        |    word-wrap: break-word;
+        |    white-space: pre;
+        |    tab-size: 8;
         |    font-family: ${if (useFixedWidthFont) "monospace" else "sans-serif"};
         |    margin-top: 0px;
         |  }
