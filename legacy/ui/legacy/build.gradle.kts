@@ -114,25 +114,3 @@ codeCoverage {
     branchCoverage = 2
     lineCoverage = 4
 }
-
-}
-
-codeCoverage {
-    branchCoverage = 2
-    lineCoverage = 4
-}
-es {
-        buildConfig = true
-    }
-
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
-}
-
-codeCoverage {
-    branchCoverage = 2
-    lineCoverage = 4
-}
