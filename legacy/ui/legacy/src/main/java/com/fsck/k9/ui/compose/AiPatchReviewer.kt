@@ -31,7 +31,7 @@ class AiPatchReviewer {
                 }
 
                 val model = GenerativeModel(
-                    modelName = "gemini-1.5-flash",
+                    modelName = "gemini-3.1-pro-preview",
                     apiKey = apiKey
                 )
                 
