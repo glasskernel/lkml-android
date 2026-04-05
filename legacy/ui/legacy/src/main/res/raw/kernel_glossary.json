@@ -1,0 +1,22 @@
+{
+  "RCU": "Read-Copy-Update: A synchronization mechanism that allows multiple readers to access data simultaneously while a writer is updating it.",
+  "VFS": "Virtual File System: An abstraction layer that allows the kernel to handle different file systems in a uniform way.",
+  "SLAB": "A memory management mechanism intended for the efficient memory allocation of objects.",
+  "SLUB": "The unqueued slab allocator, a simplified version of SLAB used in modern kernels.",
+  "Kconfig": "The configuration system used to determine which features and drivers are built into the kernel.",
+  "IRQ": "Interrupt Request: A signal sent to the processor to temporarily stop running code and handle an event.",
+  "Spinlock": "A locking mechanism where a thread 'spins' in a loop waiting for the lock to become available.",
+  "Mutex": "A mutual exclusion object that prevents multiple threads from accessing a shared resource simultaneously.",
+  "Kthread": "Kernel Thread: A thread that runs entirely in kernel space.",
+  "OOM": "Out of Memory: A state where the system has exhausted its available RAM and swap space.",
+  "DMA": "Direct Memory Access: A feature that allows hardware subsystems to access main system memory independently of the CPU.",
+  "Netfilter": "The framework within Linux that provides hooks for network-related operations (firewalling, NAT, etc.).",
+  "BPF": "Berkeley Packet Filter: A highly efficient virtual machine used for network filtering, tracing, and security.",
+  "eBPF": "Extended BPF: The modern version of BPF used for a wide range of kernel observability and security tasks.",
+  "DRM": "Direct Rendering Manager: The subsystem responsible for interfacing with GPUs.",
+  "KVM": "Kernel-based Virtual Machine: The virtualization infrastructure for the Linux kernel.",
+  "User-space": "The area of memory where application software runs, as opposed to kernel-space.",
+  "Kernel-space": "The area of memory where the core of the operating system runs and has full access to hardware.",
+  "Tainted": "A kernel state indicating that a non-GPL module was loaded or a serious error occurred.",
+  "Mainline": "The primary Linux kernel source tree managed by Linus Torvalds."
+}
