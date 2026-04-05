@@ -1513,10 +1513,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         }
 
         if (action == Action.REVIEW_PATCH) {
-            String initialText = "On " + message.getSentDate() + " the author sent a patch.\n\n" +
-                "Generating AI review draft...\n\n";
-            messageContentView.setText(initialText);
-            messageContentView.setSelection(initialText.length());
+            Toast.makeText(this, "Generating AI patch review in background...", Toast.LENGTH_LONG).show();
 
             String patchContent = BodyTextExtractor.getBodyTextFromMessage(
                 messageViewInfo.rootPart, SimpleMessageFormat.TEXT);
@@ -1527,19 +1524,21 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
                     @Override
                     public void onReviewGenerated(String reviewText) {
                         runOnUiThread(() -> {
-                            String currentText = messageContentView.getText().toString();
-                            String newText = currentText.replace("Generating AI review draft...\n\n", reviewText + "\n\n");
-                            messageContentView.setText(newText);
-                            messageContentView.setSelection(newText.length());
+                            new androidx.appcompat.app.AlertDialog.Builder(MessageCompose.this)
+                                .setTitle("AI Patch Review Ready")
+                                .setMessage("The AI has finished reviewing this patch. Insert the draft into your reply?")
+                                .setPositiveButton("Insert", (dialog, which) -> {
+                                    int selectionStart = messageContentView.getSelectionStart();
+                                    messageContentView.getText().insert(Math.max(0, selectionStart), reviewText + "\n\n");
+                                })
+                                .setNegativeButton("Discard", null)
+                                .show();
                         });
                     }
                     @Override
                     public void onError(Exception error) {
                         runOnUiThread(() -> {
-                            String currentText = messageContentView.getText().toString();
-                            String newText = currentText.replace("Generating AI review draft...\n\n", "Failed to generate AI review.\n\n");
-                            messageContentView.setText(newText);
-                            messageContentView.setSelection(newText.length());
+                            Toast.makeText(MessageCompose.this, "Failed to generate AI review: " + error.getMessage(), Toast.LENGTH_LONG).show();
                         });
                     }
                 }
