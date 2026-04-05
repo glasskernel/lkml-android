@@ -235,6 +235,7 @@ fastadapter-extensions-drag = { module = "com.mikepenz:fastadapter-extensions-dr
 fastadapter-extensions-utils = { module = "com.mikepenz:fastadapter-extensions-utils", version.ref = "fastAdapter" }
 forkhandles-bom = { module = "dev.forkhandles:forkhandles-bom", version.ref = "forkhandlesBom" }
 forkhandles-fabrikate4k = { module = "dev.forkhandles:fabrikate4k" }
+generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }

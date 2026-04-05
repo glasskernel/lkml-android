@@ -1,10 +1,14 @@
 package com.fsck.k9.ui.compose
 
-import com.fsck.k9.mail.Message
-import java.util.concurrent.Executors
+import com.fsck.k9.ui.BuildConfig
+import com.google.ai.client.generativeai.GenerativeModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
- * Service responsible for interacting with an AI model (e.g., Gemini) to generate
+ * Service responsible for interacting with the Gemini API to generate
  * an inline code review for a given patch email.
  */
 class AiPatchReviewer {
@@ -13,42 +17,41 @@ class AiPatchReviewer {
         fun onError(error: Exception)
     }
 
-    private val executor = Executors.newSingleThreadExecutor()
+    private val scope = CoroutineScope(Dispatchers.IO)
 
-    fun generateReviewDraftAsync(message: Message, callback: ReviewCallback) {
-        executor.execute {
+    fun generateReviewDraftAsync(patchContent: String, callback: ReviewCallback) {
+        scope.launch {
             try {
-                // TODO: Initialize Gemini API client (e.g., GenerativeModel) using a user-provided API key from settings.
-                // val model = GenerativeModel(modelName = "gemini-pro", apiKey = BuildConfig.GEMINI_API_KEY)
-                
-                // TODO: Extract the patch diff content from the message body
-                // val patchContent = extractDiff(message)
+                val apiKey = BuildConfig.GEMINI_API_KEY
+                if (apiKey.isNullOrEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        callback.onError(Exception("GEMINI_API_KEY is not configured in local.properties."))
+                    }
+                    return@launch
+                }
 
-                // TODO: Build the prompt combining the patch content and instructions to review the C code / kernel guidelines.
-                // val prompt = "Review the following Linux Kernel patch and point out any bugs or style issues:\n\n$patchContent"
+                val model = GenerativeModel(
+                    modelName = "gemini-1.5-flash",
+                    apiKey = apiKey
+                )
                 
-                // TODO: Execute the network request.
-                // val response = model.generateContent(prompt)
-                // callback.onReviewGenerated(response.text ?: "No review generated.")
+                val prompt = "Review the following Linux Kernel patch and point out any bugs, logical errors, or style issues. Keep the feedback concise and format it as a draft reply to the mailing list.\n\nPatch Content:\n$patchContent"
+                
+                val response = model.generateContent(prompt)
+                val reviewText = response.text ?: "No review generated."
 
-                // Mock response for now, simulating a network delay and AI processing.
-                Thread.sleep(1500)
-                
-                val draft = """
-                    --- AI PATCH REVIEW (DRAFT) ---
-                    The patch looks generally good, but I noticed a few potential issues:
-                    
-                    [!] Missing locking: In the error path of `my_driver_init`, it looks like `mutex_unlock(&my_lock)` is not called before returning.
-                    [!] Style: Consider using `dev_err_probe` instead of `dev_err` when handling probe failures.
-                    
-                    Please verify these findings before sending.
-                    -------------------------------
-                    
-                """.trimIndent()
-                
-                callback.onReviewGenerated(draft)
+                withContext(Dispatchers.Main) {
+                    val draft = """
+                        --- AI PATCH REVIEW (DRAFT) ---
+                        $reviewText
+                        -------------------------------
+                    """.trimIndent()
+                    callback.onReviewGenerated(draft)
+                }
             } catch (e: Exception) {
-                callback.onError(e)
+                withContext(Dispatchers.Main) {
+                    callback.onError(e)
+                }
             }
         }
     }

@@ -1518,14 +1518,17 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
             messageContentView.setText(initialText);
             messageContentView.setSelection(initialText.length());
 
+            String patchContent = BodyTextExtractor.getBodyTextFromMessage(
+                messageViewInfo.rootPart, SimpleMessageFormat.TEXT);
+
             new com.fsck.k9.ui.compose.AiPatchReviewer().generateReviewDraftAsync(
-                message, 
+                patchContent, 
                 new com.fsck.k9.ui.compose.AiPatchReviewer.ReviewCallback() {
                     @Override
                     public void onReviewGenerated(String reviewText) {
                         runOnUiThread(() -> {
                             String currentText = messageContentView.getText().toString();
-                            String newText = currentText.replace("Generating AI review draft...\n\n", reviewText);
+                            String newText = currentText.replace("Generating AI review draft...\n\n", reviewText + "\n\n");
                             messageContentView.setText(newText);
                             messageContentView.setSelection(newText.length());
                         });

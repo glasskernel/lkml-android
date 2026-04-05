@@ -68,6 +68,7 @@ dependencies {
 
     implementation(libs.commons.io)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.generativeai)
     implementation(libs.jcip.annotations)
     implementation(libs.mime4j.core)
     implementation(libs.kotlinx.coroutines.core)
@@ -99,6 +100,28 @@ android {
     namespace = "com.fsck.k9.ui"
 
     buildFeatures {
+        buildConfig = true
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+}
+
+codeCoverage {
+    branchCoverage = 2
+    lineCoverage = 4
+}
+
+}
+
+codeCoverage {
+    branchCoverage = 2
+    lineCoverage = 4
+}
+es {
         buildConfig = true
     }
 
