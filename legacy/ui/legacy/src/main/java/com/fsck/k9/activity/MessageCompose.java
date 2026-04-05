@@ -548,7 +548,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         replyToPresenter.setIdentity(identity);
 
         if (!relatedMessageProcessed) {
-            if (action == Action.REPLY || action == Action.REPLY_ALL ||
+            if (action == Action.REPLY || action == Action.REPLY_ALL || action == Action.REVIEW_PATCH ||
                     action == Action.FORWARD || action == Action.FORWARD_AS_ATTACHMENT ||
                     action == Action.EDIT_DRAFT) {
                 messageLoaderHelper = messageLoaderHelperFactory.createForMessageCompose(this,
@@ -1435,7 +1435,8 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         try {
             switch (action) {
                 case REPLY:
-                case REPLY_ALL: {
+                case REPLY_ALL:
+                case REVIEW_PATCH: {
                     processMessageToReplyTo(messageViewInfo);
                     break;
                 }
