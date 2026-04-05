@@ -4,6 +4,7 @@ import android.widget.EditText
 import androidx.test.core.app.ApplicationProvider
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
 import com.fsck.k9.K9RobolectricTest
 import org.junit.Test
 
@@ -41,6 +42,19 @@ class AutoWrapTextWatcherTest : K9RobolectricTest() {
         editText.text.insert(editText.selectionStart, " three")
 
         assertThat(editText.text.toString()).isEqualTo("> one two\n> three")
+    }
+
+    @Test
+    fun `exposes a single argument constructor for Java callers`() {
+        // Arrange
+        val editText = createEditText("")
+        val constructor = AutoWrapTextWatcher::class.java.getConstructor(EditText::class.java)
+
+        // Act
+        val testSubject = constructor.newInstance(editText)
+
+        // Assert
+        assertThat(testSubject).isNotNull()
     }
 
     private fun createEditText(text: String): EditText {

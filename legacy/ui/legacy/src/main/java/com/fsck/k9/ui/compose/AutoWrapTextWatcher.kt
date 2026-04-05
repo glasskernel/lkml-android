@@ -10,7 +10,7 @@ import kotlin.math.min
 
 private const val NO_INDEX = -1
 
-class AutoWrapTextWatcher(
+class AutoWrapTextWatcher @JvmOverloads constructor(
     private val editText: EditText,
     private val wrapColumn: Int = TextWrapUtils.DEFAULT_WRAP_COLUMN,
 ) : TextWatcher {

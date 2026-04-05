@@ -421,7 +421,8 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         recipientMvpView.addTextChangedListener(draftNeedsChangingTextWatcher);
         quotedMessageMvpView.addTextChangedListener(draftNeedsChangingTextWatcher);
         quotedMessageMvpView.addTextChangedListener(new WrapUriTextWatcher());
-        quotedMessageMvpView.addTextChangedListener(new AutoWrapTextWatcher(findViewById(R.id.quoted_text)));
+        EditText quotedTextView = findViewById(R.id.quoted_text);
+        quotedMessageMvpView.addTextChangedListener(new AutoWrapTextWatcher(quotedTextView));
 
         subjectView.addTextChangedListener(draftNeedsChangingTextWatcher);
 
