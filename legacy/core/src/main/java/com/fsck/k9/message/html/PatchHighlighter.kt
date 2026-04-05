@@ -10,10 +10,10 @@ internal object PatchHighlighter : TextToHtml.HtmlModifier {
 }
 
 internal class PatchLineModification(
-    override val startIndex: Int,
-    override val endIndex: Int,
+    startIndex: Int,
+    endIndex: Int,
     private val type: PatchLineType,
-) : HtmlModification.Wrap {
+) : HtmlModification.Wrap(startIndex, endIndex) {
     override fun appendPrefix(textToHtml: TextToHtml) {
         val color = when (type) {
             PatchLineType.ADDITION -> "#2cbe4e" // Green
