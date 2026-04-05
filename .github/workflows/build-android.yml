@@ -14,13 +14,13 @@ on:
       - '**.md'
       - 'LICENSE'
       - 'NOTICE'
-  workflow_dispatch: # This allows you to run the workflow manually from the "Actions" tab
+  workflow_dispatch: # Allows manual triggering from the Actions tab
 
 permissions:
   contents: read
 
 concurrency:
-  group: android-ci-${{ github.ref }}-${{ github.event.pull_request.number || 'no-pr' }}
+  group: android-ci-${{ github.ref }}-${{ github.ref == 'refs/heads/main' && github.run_id || github.event.pull_request.number || 'no-pr' }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
@@ -71,6 +71,12 @@ jobs:
       - name: Build K9 application
         run: ./gradlew :app-k9mail:assemble -Pci=true
 
+      - name: Upload K9 APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: k9-apks
+          path: app-k9mail/build/outputs/apk/**/*.apk
+
   check-badging-k9:
     name: Check - K9 badging
     runs-on: ubuntu-latest
@@ -108,6 +114,12 @@ jobs:
 
       - name: Build Thunderbird application
         run: ./gradlew :app-thunderbird:assemble -Pci=true
+
+      - name: Upload Thunderbird APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: thunderbird-apks
+          path: app-thunderbird/build/outputs/apk/**/*.apk
 
   check-badging-thunderbird:
     name: Check - Thunderbird badging
@@ -150,6 +162,12 @@ jobs:
 
       - name: Build App UI-catalog application in Debug mode
         run: ./gradlew :app-ui-catalog:assembleDebug
+
+      - name: Upload UI Catalog APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-catalog-apk
+          path: app-ui-catalog/build/outputs/apk/**/*.apk
 
   quality-unit-test:
     name: Quality - Unit tests
