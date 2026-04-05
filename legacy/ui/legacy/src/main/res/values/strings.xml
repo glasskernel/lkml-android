@@ -87,6 +87,7 @@
     <string name="unflag_action">Remove star</string>
     <string name="copy_action">Copy</string>
     <string name="unsubscribe_action">Unsubscribe</string>
+    <string name="delete_action">Delete</string>
     <string name="show_headers_action">Show headers</string>
     <string name="message_view_menu_action_export_eml">Export as EML</string>
     <string name="print_message_action">Print</string>
