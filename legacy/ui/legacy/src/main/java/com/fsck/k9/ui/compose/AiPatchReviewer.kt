@@ -30,14 +30,26 @@ class AiPatchReviewer {
                     return@launch
                 }
 
-                val model = GenerativeModel(
-                    modelName = "gemini-3.1-pro-preview",
-                    apiKey = apiKey
-                )
-                
                 val prompt = "Review the following Linux Kernel patch and point out any bugs, logical errors, or style issues. Keep the feedback concise and format it as a draft reply to the mailing list.\n\nPatch Content:\n$patchContent"
                 
-                val response = model.generateContent(prompt)
+                var response = try {
+                    val primaryModel = GenerativeModel(
+                        modelName = "gemini-3.1-pro-preview",
+                        apiKey = apiKey
+                    )
+                    primaryModel.generateContent(prompt)
+                } catch (e: Exception) {
+                    if (e.message?.contains("429") == true) {
+                        val backupModel = GenerativeModel(
+                            modelName = "gemini-3-flash-preview",
+                            apiKey = apiKey
+                        )
+                        backupModel.generateContent(prompt)
+                    } else {
+                        throw e
+                    }
+                }
+
                 val reviewText = response.text ?: "No review generated."
 
                 withContext(Dispatchers.Main) {
