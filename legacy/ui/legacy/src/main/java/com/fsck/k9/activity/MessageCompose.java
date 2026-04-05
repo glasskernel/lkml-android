@@ -32,6 +32,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -147,6 +148,7 @@ import net.thunderbird.feature.notification.api.sender.compat.NotificationSender
 import net.thunderbird.feature.search.legacy.LocalMessageSearch;
 import org.openintents.openpgp.OpenPgpApiManager;
 import org.openintents.openpgp.util.OpenPgpIntentStarter;
+import com.google.android.material.button.MaterialButton;
 import net.thunderbird.core.android.common.startup.DatabaseUpgradeInterceptor;
 import net.thunderbird.core.logging.legacy.Log;
 import static com.fsck.k9.activity.compose.AttachmentPresenter.REQUEST_CODE_ATTACHMENT_URI;
@@ -396,6 +398,8 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         messageContentView.getInputExtras(true).putBoolean("allowEmoji", true);
 
         attachmentsView = findViewById(R.id.attachments);
+
+        initializeTags();
 
         TextWatcher draftNeedsChangingTextWatcher = new SimpleTextWatcher() {
             @Override
@@ -2145,5 +2149,41 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         public int getTitleResource() {
             return titleResource;
         }
+    }
+
+    private void initializeTags() {
+        LinearLayout tagsContainer = findViewById(R.id.tags_container);
+        if (tagsContainer == null) return;
+
+        String[] tags = {"Signed-off-by", "Reviewed-by", "Acked-by", "Tested-by", "Reported-by", "Suggested-by", "Co-developed-by", "Fixes", "Cc"};
+        for (String tag : tags) {
+            MaterialButton button = new MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
+            button.setText(tag);
+            button.setAllCaps(false);
+            button.setPadding(16, 0, 16, 0);
+            button.setOnClickListener(v -> insertTag(tag));
+            tagsContainer.addView(button);
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) button.getLayoutParams();
+            params.setMargins(8, 0, 8, 0);
+            button.setLayoutParams(params);
+        }
+    }
+
+    private void insertTag(String tag) {
+        if (identity == null) return;
+        String name = identity.getName();
+        String email = identity.getEmail();
+        String tagText;
+        if ("Fixes".equals(tag)) {
+            tagText = "Fixes: \n";
+        } else {
+            tagText = tag + ": " + (name != null ? name : "") + " <" + (email != null ? email : "") + ">\n";
+        }
+
+        int start = Math.max(messageContentView.getSelectionStart(), 0);
+        int end = Math.max(messageContentView.getSelectionEnd(), 0);
+        messageContentView.getText().replace(Math.min(start, end), Math.max(start, end), tagText, 0, tagText.length());
+        messageContentView.requestFocus();
     }
 }
