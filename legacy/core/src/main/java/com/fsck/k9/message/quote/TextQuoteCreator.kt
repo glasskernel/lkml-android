@@ -1,6 +1,7 @@
 package com.fsck.k9.message.quote
 
 import com.fsck.k9.CoreResourceProvider
+import com.fsck.k9.helper.TextWrapUtils
 import com.fsck.k9.mail.Address
 import com.fsck.k9.mail.Message
 import com.fsck.k9.mail.Message.RecipientType
@@ -10,7 +11,6 @@ class TextQuoteCreator(
     private val quoteDateFormatter: QuoteDateFormatter,
     private val resourceProvider: CoreResourceProvider,
 ) {
-    private val prefixInsertionRegex = Regex("(?m)^")
 
     fun quoteOriginalTextMessage(
         originalMessage: Message,
@@ -38,10 +38,7 @@ class TextQuoteCreator(
             append(replyHeader)
             append(CRLF)
 
-            val escapedPrefix = Regex.escapeReplacement(prefix)
-            val prefixedText = body.replace(prefixInsertionRegex, escapedPrefix)
-
-            append(prefixedText)
+            append(TextWrapUtils.wrapQuotedText(body, prefix))
         }
     }
 
@@ -89,7 +86,7 @@ class TextQuoteCreator(
             }
 
             append(CRLF)
-            append(body)
+            append(TextWrapUtils.wrapText(body))
         }
     }
 

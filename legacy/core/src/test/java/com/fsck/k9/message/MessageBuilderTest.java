@@ -29,6 +29,7 @@ import com.fsck.k9.mail.internet.MessageIdGenerator;
 import com.fsck.k9.mail.internet.MimeHeader;
 import com.fsck.k9.mail.internet.MimeMessage;
 import com.fsck.k9.mail.internet.MimeMultipart;
+import com.fsck.k9.mail.internet.TextBody;
 import com.fsck.k9.message.MessageBuilder.Callback;
 import com.fsck.k9.message.quote.InsertableHtmlContent;
 import net.thunderbird.core.logging.legacy.Log;
@@ -372,6 +373,50 @@ public class MessageBuilderTest extends RobolectricTest {
         MimeMessage message = getMessageFromCallback();
         assertEquals(MESSAGE_HEADERS + MESSAGE_CONTENT_WITH_MESSAGE_ATTACH,
                 getMessageContents(message));
+    }
+
+    @Test
+    public void build_withLongPlainText_shouldWrapAndPreservePatchLines() throws Exception {
+        String messageText =
+                "one two three four five six seven eight nine ten eleven twelve thirteen fourteen\r\n" +
+                "Fixes: https://example.com/this-link-should-not-be-broken-even-when-it-is-very-long\r\n" +
+                "+this patch line should stay exactly as it is even when it is long long long long";
+        MessageBuilder messageBuilder = createSimpleMessageBuilder()
+                .setText(messageText)
+                .setQuotedTextMode(QuotedTextMode.NONE);
+
+        messageBuilder.buildAsync(callback);
+
+        MimeMessage message = getMessageFromCallback();
+        TextBody body = (TextBody) message.getBody();
+        assertEquals(
+                "one two three four five six seven eight nine ten eleven twelve thirteen\r\n" +
+                        "fourteen\r\n" +
+                        "Fixes: https://example.com/this-link-should-not-be-broken-even-when-it-is-very-long\r\n" +
+                        "+this patch line should stay exactly as it is even when it is long long long long",
+                body.getRawText());
+    }
+
+    @Test
+    public void build_withQuotedText_shouldWrapQuotedProseWithoutTouchingQuotedPatchLines() throws Exception {
+        String quotedText =
+                "> one two three four five six seven eight nine ten eleven twelve thirteen fourteen\r\n" +
+                "> +this patch line should stay exactly as it is even when it is long long long long";
+        MessageBuilder messageBuilder = createSimpleMessageBuilder()
+                .setText("reply")
+                .setQuotedTextMode(QuotedTextMode.SHOW)
+                .setQuotedText(quotedText);
+
+        messageBuilder.buildAsync(callback);
+
+        MimeMessage message = getMessageFromCallback();
+        TextBody body = (TextBody) message.getBody();
+        assertEquals(
+                "reply\r\n\r\n" +
+                        "> one two three four five six seven eight nine ten eleven twelve\r\n" +
+                        "> thirteen fourteen\r\n" +
+                        "> +this patch line should stay exactly as it is even when it is long long long long",
+                body.getRawText());
     }
 
     @Test

@@ -68,8 +68,9 @@ class TextQuoteCreatorTest : RobolectricTest() {
     fun prefixQuote_withLongLines() {
         val messageBody =
             """
-            [-------] [-------] [-------] [-------] [-------] [-------] [-------] [-------] [-------] [-------]
-            [-------------------------------------------------------------------------------------------------]
+            one two three four five six seven eight nine ten eleven twelve thirteen fourteen
+            +this patch line should stay exactly as it is even when it is long long long long
+            Fixes: https://example.com/this-link-should-not-be-broken-even-when-it-is-very-long
             """.trimIndent().crlf()
         val quoteStyle = QuoteStyle.PREFIX
         val quotePrefix = "> "
@@ -79,8 +80,38 @@ class TextQuoteCreatorTest : RobolectricTest() {
         assertThat(quote).isEqualTo(
             """
             On January 18, 1970 7:53:41 PM UTC, Alice <alice@sender.example> wrote:
-            > [-------] [-------] [-------] [-------] [-------] [-------] [-------] [-------] [-------] [-------]
-            > [-------------------------------------------------------------------------------------------------]
+            > one two three four five six seven eight nine ten eleven twelve
+            > thirteen fourteen
+            > +this patch line should stay exactly as it is even when it is long long long long
+            > Fixes: https://example.com/this-link-should-not-be-broken-even-when-it-is-very-long
+            """.trimIndent().crlf(),
+        )
+    }
+
+    @Test
+    fun headerQuote_withLongLines() {
+        val messageBody =
+            """
+            one two three four five six seven eight nine ten eleven twelve thirteen fourteen
+            +this patch line should stay exactly as it is even when it is long long long long
+            Fixes: https://example.com/this-link-should-not-be-broken-even-when-it-is-very-long
+            """.trimIndent().crlf()
+
+        val quote = createQuote(messageBody, QuoteStyle.HEADER)
+
+        assertThat(quote).isEqualTo(
+            """
+
+            -------- Original Message --------
+            From: Alice <alice@sender.example>
+            Sent: January 18, 1970 7:53:41 PM UTC
+            To: bob@recipient.example
+            Subject: Message subject
+
+            one two three four five six seven eight nine ten eleven twelve thirteen
+            fourteen
+            +this patch line should stay exactly as it is even when it is long long long long
+            Fixes: https://example.com/this-link-should-not-be-broken-even-when-it-is-very-long
             """.trimIndent().crlf(),
         )
     }

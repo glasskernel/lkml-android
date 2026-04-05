@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.fsck.k9.CoreResourceProvider;
+import com.fsck.k9.helper.TextWrapUtils;
 import com.fsck.k9.mail.internet.AddressHeaderBuilder;
 import com.fsck.k9.mail.internet.Headers;
 import net.thunderbird.core.android.account.Identity;
@@ -361,6 +362,9 @@ public abstract class MessageBuilder {
             body = textBodyBuilder.buildTextHtml();
         } else {
             body = textBodyBuilder.buildTextPlain();
+            if (!isDraft) {
+                body = new TextBody(TextWrapUtils.wrapText(body.getRawText(), TextWrapUtils.DEFAULT_WRAP_COLUMN));
+            }
         }
         return body;
     }
