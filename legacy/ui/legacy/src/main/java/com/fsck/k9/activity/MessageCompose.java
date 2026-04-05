@@ -123,6 +123,7 @@ import com.fsck.k9.ui.R;
 import com.fsck.k9.ui.base.BaseActivity;
 import com.fsck.k9.ui.compose.IntentData;
 import com.fsck.k9.ui.compose.IntentDataMapper;
+import com.fsck.k9.ui.compose.AutoWrapTextWatcher;
 import com.fsck.k9.ui.compose.QuotedMessageMvpView;
 import com.fsck.k9.ui.compose.QuotedMessagePresenter;
 import com.fsck.k9.ui.compose.WrapUriTextWatcher;
@@ -420,11 +421,13 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         recipientMvpView.addTextChangedListener(draftNeedsChangingTextWatcher);
         quotedMessageMvpView.addTextChangedListener(draftNeedsChangingTextWatcher);
         quotedMessageMvpView.addTextChangedListener(new WrapUriTextWatcher());
+        quotedMessageMvpView.addTextChangedListener(new AutoWrapTextWatcher(findViewById(R.id.quoted_text)));
 
         subjectView.addTextChangedListener(draftNeedsChangingTextWatcher);
 
         messageContentView.addTextChangedListener(draftNeedsChangingTextWatcher);
         messageContentView.addTextChangedListener(new WrapUriTextWatcher());
+        messageContentView.addTextChangedListener(new AutoWrapTextWatcher(messageContentView));
 
         /*
          * We set this to invisible by default. Other methods will turn it back on if it's
