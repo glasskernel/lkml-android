@@ -676,6 +676,19 @@
     <string name="preference_search_no_results">No settings found</string>
 
     <string name="settings_message_theme_selection_label">Fixed message theme</string>
+
+    <string name="lkml_settings_title">LKML settings</string>
+    <string name="lkml_settings_summary">Settings for Linux Kernel Mailing List and similar plain text lists</string>
+    <string name="lkml_patch_highlight_title">Highlight patch lines</string>
+    <string name="lkml_patch_highlight_summary">Use colors to highlight diff/patch lines in messages</string>
+    <string name="lkml_strip_signature_reply_title">Strip signature on reply</string>
+    <string name="lkml_strip_signature_reply_summary">Remove signature from original message when replying (standard LKML practice)</string>
+    <string name="lkml_tag_toolbar_title">Show tag toolbar</string>
+    <string name="lkml_tag_toolbar_summary">Show a toolbar with common LKML tags in the composer</string>
+    <string name="lkml_confirm_top_posting_title">Confirm on top-posting</string>
+    <string name="lkml_confirm_top_posting_summary">Warn when starting a reply above quoted text</string>
+    <string name="lkml_top_posting_warning_title">Top-posting detected</string>
+    <string name="lkml_top_posting_warning_message">You are typing above the quoted text. LKML etiquette prefers interleaved or bottom posting. Do you want to continue?</string>
     <string name="settings_message_theme_selection_summary_off">Select the message view theme while viewing the message</string>
     <string name="settings_message_theme_selection_summary_on">Use a fixed message view theme</string>
 

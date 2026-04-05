@@ -38,6 +38,7 @@ class GeneralSettingsDataStore(
         val interactionSettings = config.interaction
         val notificationSettings = config.notification
         val privacySettings = config.privacy
+        val lkmlSettings = config.lkml
         val visualSettings = config.display.visualSettings
         val messageListSettings = visualSettings.messageListSettings
         return when (key) {
@@ -63,6 +64,10 @@ class GeneralSettingsDataStore(
             "notification_summary_delete" -> notificationSettings.isSummaryDeleteActionEnabled
             "privacy_hide_useragent" -> privacySettings.isHideUserAgent
             "privacy_hide_timezone" -> privacySettings.isHideTimeZone
+            "lkml_patch_highlight" -> lkmlSettings.isPatchHighlightEnabled
+            "lkml_strip_signature_reply" -> lkmlSettings.isStripSignatureReplyEnabled
+            "lkml_tag_toolbar" -> lkmlSettings.isTagToolbarEnabled
+            "lkml_confirm_top_posting" -> lkmlSettings.isConfirmTopPostingEnabled
             "debug_logging" -> debuggingSettings.isDebugLoggingEnabled
             "sync_debug_logging" -> debuggingSettings.isSyncLoggingEnabled
             "sensitive_logging" -> debuggingSettings.isSensitiveLoggingEnabled
@@ -105,6 +110,10 @@ class GeneralSettingsDataStore(
             "notification_summary_delete" -> setIsSummaryDeleteActionEnabled(isSummaryDeleteActionEnabled = value)
             "privacy_hide_useragent" -> setIsHideUserAgent(isHideUserAgent = value)
             "privacy_hide_timezone" -> setIsHideTimeZone(isHideTimeZone = value)
+            "lkml_patch_highlight" -> setLKMLPatchHighlight(value)
+            "lkml_strip_signature_reply" -> setLKMLStripSignatureReply(value)
+            "lkml_tag_toolbar" -> setLKMLTagToolbar(value)
+            "lkml_confirm_top_posting" -> setLKMLConfirmTopPosting(value)
             "debug_logging" -> setIsDebugLoggingEnabled(isDebugLoggingEnabled = value)
             "sync_debug_logging" -> setIsSyncLoggingEnabled(isSyncLoggingEnabled = value)
             "sensitive_logging" -> setIsSensitiveLoggingEnabled(isSensitiveLoggingEnabled = value)
@@ -676,6 +685,50 @@ class GeneralSettingsDataStore(
             settings.copy(
                 privacy = settings.privacy.copy(
                     isHideTimeZone = isHideTimeZone,
+                ),
+            )
+        }
+    }
+
+    private fun setLKMLPatchHighlight(enabled: Boolean) {
+        skipSaveSettings = true
+        generalSettingsManager.update { settings ->
+            settings.copy(
+                lkml = settings.lkml.copy(
+                    isPatchHighlightEnabled = enabled,
+                ),
+            )
+        }
+    }
+
+    private fun setLKMLStripSignatureReply(enabled: Boolean) {
+        skipSaveSettings = true
+        generalSettingsManager.update { settings ->
+            settings.copy(
+                lkml = settings.lkml.copy(
+                    isStripSignatureReplyEnabled = enabled,
+                ),
+            )
+        }
+    }
+
+    private fun setLKMLTagToolbar(enabled: Boolean) {
+        skipSaveSettings = true
+        generalSettingsManager.update { settings ->
+            settings.copy(
+                lkml = settings.lkml.copy(
+                    isTagToolbarEnabled = enabled,
+                ),
+            )
+        }
+    }
+
+    private fun setLKMLConfirmTopPosting(enabled: Boolean) {
+        skipSaveSettings = true
+        generalSettingsManager.update { settings ->
+            settings.copy(
+                lkml = settings.lkml.copy(
+                    isConfirmTopPostingEnabled = enabled,
                 ),
             )
         }

@@ -173,6 +173,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
     private final DatabaseUpgradeInterceptor databaseUpgradeInterceptor = DI.get(DatabaseUpgradeInterceptor.class);
     private static final int DIALOG_CHOOSE_IDENTITY = 3;
     private static final int DIALOG_CONFIRM_DISCARD = 4;
+    private static final int DIALOG_CONFIRM_TOP_POSTING = 5;
 
     public static final String ACTION_COMPOSE = "com.fsck.k9.intent.action.COMPOSE";
     public static final String ACTION_REPLY = "com.fsck.k9.intent.action.REPLY";
@@ -303,6 +304,9 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
     private boolean sendMessageHasBeenTriggered = false;
     private boolean ignoreSentFolderNotAssigned = false;
 
+    private boolean topPostingWarningShown = false;
+    private boolean isTopPostingWarningEnabled = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -402,10 +406,18 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
 
         initializeTags();
 
+        isTopPostingWarningEnabled = generalSettingsManager.getConfig().getLkml().isConfirmTopPostingEnabled();
+
         TextWatcher draftNeedsChangingTextWatcher = new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 changesMadeSinceLastSave = true;
+                if (isTopPostingWarningEnabled && !topPostingWarningShown && count > 0) {
+                    if (messageContentView.getSelectionStart() <= 1 && messageContentView.getText().length() > count) {
+                        topPostingWarningShown = true;
+                        showDialog(DIALOG_CONFIRM_TOP_POSTING);
+                    }
+                }
             }
         };
 
@@ -1379,6 +1391,17 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
                                 })
                         .create();
             }
+            case DIALOG_CONFIRM_TOP_POSTING: {
+                return new MaterialAlertDialogBuilder(this)
+                        .setTitle(R.string.lkml_top_posting_warning_title)
+                        .setMessage(R.string.lkml_top_posting_warning_message)
+                        .setPositiveButton(R.string.dialog_confirm_delete_confirm_button,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                        .create();
+            }
         }
         return super.onCreateDialog(id);
     }
@@ -2156,6 +2179,14 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
     }
 
     private void initializeTags() {
+        View tagsScrollView = findViewById(R.id.tags_scroll_view);
+        if (tagsScrollView == null) return;
+
+        if (!generalSettingsManager.getConfig().getLkml().isTagToolbarEnabled()) {
+            tagsScrollView.setVisibility(View.GONE);
+            return;
+        }
+
         LinearLayout tagsContainer = findViewById(R.id.tags_container);
         if (tagsContainer == null) return;
 

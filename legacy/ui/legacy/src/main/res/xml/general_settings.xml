@@ -547,6 +547,44 @@
     </PreferenceScreen>
 
     <PreferenceScreen
+        android:icon="@drawable/ic_edit"
+        android:key="lkml_preferences"
+        android:title="@string/lkml_settings_title"
+        android:summary="@string/lkml_settings_summary"
+        search:ignore="true"
+        >
+
+        <CheckBoxPreference
+            android:key="lkml_patch_highlight"
+            android:title="@string/lkml_patch_highlight_title"
+            android:summary="@string/lkml_patch_highlight_summary"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="lkml_strip_signature_reply"
+            android:title="@string/lkml_strip_signature_reply_title"
+            android:summary="@string/lkml_strip_signature_reply_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="lkml_tag_toolbar"
+            android:title="@string/lkml_tag_toolbar_title"
+            android:summary="@string/lkml_tag_toolbar_summary"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="lkml_confirm_top_posting"
+            android:title="@string/lkml_confirm_top_posting_title"
+            android:summary="@string/lkml_confirm_top_posting_summary"
+            android:defaultValue="false"
+            />
+
+    </PreferenceScreen>
+
+    <PreferenceScreen
         android:icon="@drawable/ic_analytics"
         android:key="data_collection"
         android:title="@string/settings_ui_data_collection"
