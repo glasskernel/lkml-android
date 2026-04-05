@@ -7,11 +7,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import app.k9mail.core.ui.compose.designsystem.atom.button.ButtonIcon
 import app.k9mail.core.ui.compose.designsystem.atom.text.TextBodyMedium
 import app.k9mail.core.ui.compose.designsystem.atom.text.TextTitleMedium
+import app.k9mail.core.ui.compose.designsystem.template.LocalHazeState
+import dev.chrisbanes.haze.hazeChild
 import net.thunderbird.core.ui.compose.common.modifier.testTagAsResourceId
 import net.thunderbird.core.ui.compose.designsystem.atom.icon.Icons
 import net.thunderbird.core.ui.compose.theme2.MainTheme
@@ -48,11 +51,12 @@ fun SubtitleTopAppBar(
                 )
             }
         },
-        modifier = modifier,
+        modifier = modifier.hazeChild(LocalHazeState.current),
         navigationIcon = navigationIcon,
         actions = actions,
         colors = topAppBarColors(
-            containerColor = MainTheme.colors.surfaceContainer,
+            containerColor = Color.Transparent,
+            scrolledContainerColor = Color.Transparent,
         ),
     )
 }

@@ -2,7 +2,11 @@ package app.k9mail.core.ui.compose.designsystem.template
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.haze
 import androidx.compose.material3.FabPosition as Material3FabPosition
 import androidx.compose.material3.Scaffold as Material3Scaffold
 
@@ -17,15 +21,19 @@ fun Scaffold(
     floatingActionButtonPosition: ScaffoldFabPosition = ScaffoldFabPosition.End,
     content: @Composable (PaddingValues) -> Unit,
 ) {
-    Material3Scaffold(
-        modifier = modifier,
-        topBar = topBar,
-        bottomBar = bottomBar,
-        snackbarHost = snackbarHost,
-        floatingActionButton = floatingActionButton,
-        floatingActionButtonPosition = floatingActionButtonPosition.toMaterialFabPosition(),
-        content = content,
-    )
+    val hazeState = remember { HazeState() }
+
+    CompositionLocalProvider(LocalHazeState provides hazeState) {
+        Material3Scaffold(
+            modifier = modifier.haze(hazeState),
+            topBar = topBar,
+            bottomBar = bottomBar,
+            snackbarHost = snackbarHost,
+            floatingActionButton = floatingActionButton,
+            floatingActionButtonPosition = floatingActionButtonPosition.toMaterialFabPosition(),
+            content = content,
+        )
+    }
 }
 
 enum class ScaffoldFabPosition {
