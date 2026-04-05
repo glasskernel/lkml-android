@@ -6,7 +6,10 @@
     <application
         android:supportsRtl="true"
         >
-
+        <activity
+            android:name=".lore.LoreThreadActivity"
+            android:label="@string/fetch_lore_thread_action"
+            android:theme="@style/Theme.K9.DayNight" />
     </application>
 
     <queries>

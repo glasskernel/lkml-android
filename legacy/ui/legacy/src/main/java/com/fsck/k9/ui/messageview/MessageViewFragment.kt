@@ -459,6 +459,7 @@ class MessageViewFragment :
                 printMessage()
                 return true
             }
+            R.id.fetch_lore_thread -> onFetchLoreThread()
 
             R.id.export_eml -> if (
                 featureFlagProvider.provide(MessageViewFeatureFlags.ActionExportEml).isEnabled()
@@ -501,6 +502,12 @@ class MessageViewFragment :
     private fun onToggleTheme() {
         themeManager.toggleMessageViewTheme()
         ActivityCompat.recreate(requireActivity())
+    }
+
+    private fun onFetchLoreThread() {
+        val messageId = message?.messageId ?: return
+        val launchIntent = com.fsck.k9.ui.lore.LoreThreadActivity.createLaunchIntent(requireActivity(), messageId)
+        startActivity(launchIntent)
     }
 
     private fun showMessage(messageViewInfo: MessageViewInfo) {

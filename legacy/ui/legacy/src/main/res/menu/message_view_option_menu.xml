@@ -128,4 +128,11 @@
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:id="@+id/fetch_lore_thread"
+        android:icon="@drawable/ic_download"
+        android:title="@string/fetch_lore_thread_action"
+        app:showAsAction="never"
+        />
+
 </menu>
