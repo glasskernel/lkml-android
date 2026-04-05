@@ -108,6 +108,7 @@ import com.fsck.k9.mail.Message.RecipientType;
 import net.thunderbird.core.common.exception.MessagingException;
 import com.fsck.k9.mail.internet.MimeMessage;
 import com.fsck.k9.mailstore.LocalMessage;
+import com.fsck.k9.message.extractors.BodyTextExtractor;
 import com.fsck.k9.mailstore.MessageViewInfo;
 import com.fsck.k9.message.AutocryptStatusInteractor;
 import com.fsck.k9.message.ComposePgpEnableByDefaultDecider;
@@ -2198,6 +2199,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         COMPOSE(R.string.compose_title_compose),
         REPLY(R.string.compose_title_reply),
         REPLY_ALL(R.string.compose_title_reply_all),
+        REVIEW_PATCH(R.string.compose_title_reply),
         FORWARD(R.string.compose_title_forward),
         FORWARD_AS_ATTACHMENT(R.string.compose_title_forward_as_attachment),
         EDIT_DRAFT(R.string.compose_title_compose);
