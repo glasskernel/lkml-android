@@ -54,6 +54,28 @@ the 'composer theme' setting).
             android:background="?android:attr/listDivider"
             />
 
+        <HorizontalScrollView
+            android:id="@+id/tags_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:background="?attr/colorSurfaceContainerLow"
+            >
+            <LinearLayout
+                android:id="@+id/tags_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                />
+        </HorizontalScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            />
+
         <!-- We have to use "wrap_content" (not "0dip") for "layout_height", otherwise the
              EditText won't properly grow in height while the user is typing the message -->
         <EditText
