@@ -69,7 +69,7 @@ jobs:
         uses: ./.github/actions/setup-gradle
 
       - name: Build K9 application
-        run: ./gradlew :app-k9mail:assemble -Pci=true
+        run: ./gradlew :app-k9mail:assemble -Pci=true -PGEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
 
       - name: Upload K9 APKs
         uses: actions/upload-artifact@v4
@@ -113,7 +113,7 @@ jobs:
         uses: ./.github/actions/setup-gradle
 
       - name: Build Thunderbird application
-        run: ./gradlew :app-thunderbird:assemble -Pci=true
+        run: ./gradlew :app-thunderbird:assemble -Pci=true -PGEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
 
       - name: Upload Thunderbird APKs
         uses: actions/upload-artifact@v4
