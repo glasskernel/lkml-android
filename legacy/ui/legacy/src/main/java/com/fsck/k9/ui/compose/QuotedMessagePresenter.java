@@ -108,7 +108,7 @@ public class QuotedMessagePresenter {
         if (quotedTextFormat == SimpleMessageFormat.HTML) {
             // Strip signature.
             // closing tags such as </div>, </span>, </table>, </pre> will be cut off.
-            if (account.isStripSignature() && (action == Action.REPLY || action == Action.REPLY_ALL)) {
+            if (account.isStripSignature() && (action == Action.REPLY || action == Action.REPLY_ALL || action == Action.REVIEW_PATCH)) {
                 content = HtmlSignatureRemover.stripSignature(content);
             }
 
@@ -125,7 +125,7 @@ public class QuotedMessagePresenter {
                     quoteStyle, account.getQuotePrefix()));
 
         } else if (quotedTextFormat == SimpleMessageFormat.TEXT) {
-            if (account.isStripSignature() && (action == Action.REPLY || action == Action.REPLY_ALL)) {
+            if (account.isStripSignature() && (action == Action.REPLY || action == Action.REPLY_ALL || action == Action.REVIEW_PATCH)) {
                 content = TextSignatureRemover.stripSignature(content);
             }
 

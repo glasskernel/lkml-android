@@ -79,6 +79,20 @@ object MessageActions {
         context.startActivity(getActionReplyIntent(context, messageReference, replyAll, decryptionResult))
     }
 
+    @JvmStatic
+    fun actionReviewPatch(
+        context: Context,
+        messageReference: MessageReference,
+        decryptionResult: Parcelable?,
+    ) {
+        val intent = Intent(context, MessageCompose::class.java).apply {
+            putExtra(MessageCompose.EXTRA_MESSAGE_DECRYPTION_RESULT, decryptionResult)
+            putExtra(MessageCompose.EXTRA_MESSAGE_REFERENCE, messageReference.toIdentityString())
+            action = "com.fsck.k9.intent.action.REVIEW_PATCH"
+        }
+        context.startActivity(intent)
+    }
+
     /**
      * Compose a new message as a forward of the given message.
      */

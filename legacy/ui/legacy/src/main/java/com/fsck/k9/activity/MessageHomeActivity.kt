@@ -1133,6 +1133,10 @@ open class MessageHomeActivity :
         MessageActions.actionReply(this, messageReference, true, decryptionResultForReply)
     }
 
+    override fun onReviewPatch(messageReference: MessageReference, decryptionResultForReply: Parcelable?) {
+        MessageActions.actionReviewPatch(this, messageReference, decryptionResultForReply)
+    }
+
     override fun onCompose(account: LegacyAccount?) {
         val accountDto = account?.let { legacyAccountDataMapper.toDto(account) }
         MessageActions.actionCompose(this, accountDto)

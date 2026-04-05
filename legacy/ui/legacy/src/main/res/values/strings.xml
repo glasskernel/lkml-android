@@ -52,7 +52,8 @@
     <string name="empty_subject">Subject is empty, click again to send anyway</string>
     <string name="reply_action">Reply</string>
     <string name="reply_all_action">Reply all</string>
-    <string name="delete_action">Delete</string>
+    <string name="review_patch_action">Review Patch (AI)</string>
+    <string name="send_alternate_action">Share</string>
     <string name="archive_action">Archive</string>
     <string name="spam_action">Spam</string>
     <string name="forward_action">Forward</string>

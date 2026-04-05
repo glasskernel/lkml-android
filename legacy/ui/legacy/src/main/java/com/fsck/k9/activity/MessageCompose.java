@@ -178,6 +178,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
     public static final String ACTION_COMPOSE = "com.fsck.k9.intent.action.COMPOSE";
     public static final String ACTION_REPLY = "com.fsck.k9.intent.action.REPLY";
     public static final String ACTION_REPLY_ALL = "com.fsck.k9.intent.action.REPLY_ALL";
+    public static final String ACTION_REVIEW_PATCH = "com.fsck.k9.intent.action.REVIEW_PATCH";
     public static final String ACTION_FORWARD = "com.fsck.k9.intent.action.FORWARD";
     public static final String ACTION_FORWARD_AS_ATTACHMENT = "com.fsck.k9.intent.action.FORWARD_AS_ATTACHMENT";
     public static final String ACTION_EDIT_DRAFT = "com.fsck.k9.intent.action.EDIT_DRAFT";
@@ -507,6 +508,8 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
                 this.action = Action.REPLY;
             } else if (ACTION_REPLY_ALL.equals(action)) {
                 this.action = Action.REPLY_ALL;
+            } else if (ACTION_REVIEW_PATCH.equals(action)) {
+                this.action = Action.REVIEW_PATCH;
             } else if (ACTION_FORWARD.equals(action)) {
                 this.action = Action.FORWARD;
             } else if (ACTION_FORWARD_AS_ATTACHMENT.equals(action)) {
@@ -565,7 +568,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
             }
         }
 
-        if (action == Action.REPLY || action == Action.REPLY_ALL) {
+        if (action == Action.REPLY || action == Action.REPLY_ALL || action == Action.REVIEW_PATCH) {
             relatedFlag = Flag.ANSWERED;
         } else if (action == Action.FORWARD || action == Action.FORWARD_AS_ATTACHMENT) {
             relatedFlag = Flag.FORWARDED;
@@ -1505,8 +1508,39 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         // Quote the message and setup the UI.
         quotedMessagePresenter.initFromReplyToMessage(messageViewInfo, action);
 
-        if (action == Action.REPLY || action == Action.REPLY_ALL) {
+        if (action == Action.REPLY || action == Action.REPLY_ALL || action == Action.REVIEW_PATCH) {
             setIdentityFromMessage(message);
+        }
+
+        if (action == Action.REVIEW_PATCH) {
+            String initialText = "On " + message.getSentDate() + " the author sent a patch.\n\n" +
+                "Generating AI review draft...\n\n";
+            messageContentView.setText(initialText);
+            messageContentView.setSelection(initialText.length());
+
+            new com.fsck.k9.ui.compose.AiPatchReviewer().generateReviewDraftAsync(
+                message, 
+                new com.fsck.k9.ui.compose.AiPatchReviewer.ReviewCallback() {
+                    @Override
+                    public void onReviewGenerated(String reviewText) {
+                        runOnUiThread(() -> {
+                            String currentText = messageContentView.getText().toString();
+                            String newText = currentText.replace("Generating AI review draft...\n\n", reviewText);
+                            messageContentView.setText(newText);
+                            messageContentView.setSelection(newText.length());
+                        });
+                    }
+                    @Override
+                    public void onError(Exception error) {
+                        runOnUiThread(() -> {
+                            String currentText = messageContentView.getText().toString();
+                            String newText = currentText.replace("Generating AI review draft...\n\n", "Failed to generate AI review.\n\n");
+                            messageContentView.setText(newText);
+                            messageContentView.setSelection(newText.length());
+                        });
+                    }
+                }
+            );
         }
 
     }

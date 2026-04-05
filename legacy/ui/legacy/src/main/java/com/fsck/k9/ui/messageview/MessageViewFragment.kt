@@ -570,6 +570,7 @@ class MessageViewFragment :
             when (itemId) {
                 R.id.reply -> onReply()
                 R.id.reply_all -> onReplyAll()
+                R.id.review_patch -> onReviewPatch()
                 R.id.forward -> onForward()
                 R.id.forward_as_attachment -> onForwardAsAttachment()
                 R.id.edit_as_new_message -> onEditAsNewMessage()
@@ -1111,6 +1112,7 @@ class MessageViewFragment :
         fun onEditAsNewMessage(messageReference: MessageReference)
         fun onReplyAll(messageReference: MessageReference, decryptionResultForReply: Parcelable?)
         fun onReply(messageReference: MessageReference, decryptionResultForReply: Parcelable?)
+        fun onReviewPatch(messageReference: MessageReference, decryptionResultForReply: Parcelable?)
         fun setProgress(enable: Boolean)
         fun performNavigationAfterMessageRemoval()
         fun performNavigationAfterMarkAsUnread()
@@ -1230,6 +1232,13 @@ class MessageViewFragment :
 
         fun newInstance(reference: MessageReference, showAccountIndicator: Boolean): MessageViewFragment {
             return MessageViewFragment().withArguments(
+                ARG_REFERENCE to reference.toIdentityString(),
+                ARG_SHOW_ACCOUNT_INDICATOR to showAccountIndicator,
+            )
+        }
+    }
+}
+nt().withArguments(
                 ARG_REFERENCE to reference.toIdentityString(),
                 ARG_SHOW_ACCOUNT_INDICATOR to showAccountIndicator,
             )
