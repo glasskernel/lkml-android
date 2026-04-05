@@ -703,6 +703,15 @@ class MessageViewFragment :
         )
     }
 
+    fun onReviewPatch() {
+        val message = checkNotNull(this.message)
+
+        fragmentListener.onReviewPatch(
+            messageReference = message.makeMessageReference(),
+            decryptionResultForReply = messageCryptoPresenter.decryptionResultForReply,
+        )
+    }
+
     private fun onForwardAsAttachment() {
         val message = checkNotNull(this.message)
 
@@ -1232,13 +1241,6 @@ class MessageViewFragment :
 
         fun newInstance(reference: MessageReference, showAccountIndicator: Boolean): MessageViewFragment {
             return MessageViewFragment().withArguments(
-                ARG_REFERENCE to reference.toIdentityString(),
-                ARG_SHOW_ACCOUNT_INDICATOR to showAccountIndicator,
-            )
-        }
-    }
-}
-nt().withArguments(
                 ARG_REFERENCE to reference.toIdentityString(),
                 ARG_SHOW_ACCOUNT_INDICATOR to showAccountIndicator,
             )

@@ -184,7 +184,7 @@ jobs:
         uses: ./.github/actions/setup-gradle
 
       - name: Running unit tests
-        run: ./gradlew testsOnCi --parallel
+        run: ./gradlew testsOnCi --parallel -PGEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
 
   quality-lint:
     name: Quality - Lint

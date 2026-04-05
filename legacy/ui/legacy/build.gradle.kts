@@ -51,6 +51,7 @@ dependencies {
     implementation(projects.uiUtils.linearLayoutManager)
     implementation(projects.uiUtils.itemTouchHelper)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.constraintlayout)
@@ -68,6 +69,7 @@ dependencies {
 
     implementation(libs.commons.io)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.compose.material3)
     implementation(libs.generativeai)
     implementation(libs.jcip.annotations)
     implementation(libs.mime4j.core)
@@ -101,6 +103,11 @@ android {
 
     buildFeatures {
         buildConfig = true
+    }
+
+    defaultConfig {
+        val geminiApiKey = project.findProperty("GEMINI_API_KEY") as? String ?: ""
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
 
     testOptions {
