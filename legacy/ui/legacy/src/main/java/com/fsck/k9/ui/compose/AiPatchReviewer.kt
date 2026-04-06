@@ -65,12 +65,17 @@ class AiPatchReviewer {
                         val model = GenerativeModel(modelName = modelName, apiKey = apiKey)
                         val response = model.generateContent(prompt)
                         responseText = response.text
+                        
                         if (responseText != null) {
                             successfulModel = modelName
                             break
+                        } else {
+                            // If text is null, the response might have been blocked (safety, etc.)
+                            val reason = response.candidates.firstOrNull()?.finishReason?.name ?: "UNKNOWN"
+                            lastError = Exception("Model $modelName returned no text. Reason: $reason")
                         }
                     } catch (e: Exception) {
-                        lastError = e
+                        lastError = Exception("Model $modelName failed: ${e.message}", e)
                         val errorMsg = e.message ?: ""
                         // If it's not a quota/rate limit error, don't bother trying other models
                         if (!errorMsg.contains("429") && !errorMsg.contains("quota", ignoreCase = true)) {
@@ -80,7 +85,7 @@ class AiPatchReviewer {
                 }
 
                 if (responseText == null) {
-                    throw lastError ?: Exception("No review generated and no error captured.")
+                    throw lastError ?: Exception("All models failed to generate a response.")
                 }
 
                 val reviewText = responseText ?: "No review generated."
