@@ -32,25 +32,36 @@ class AiPatchReviewer {
 
                 val prompt = "Review the following Linux Kernel patch and point out any bugs, logical errors, or style issues. Keep the feedback concise and format it as a draft reply to the mailing list.\n\nPatch Content:\n$patchContent"
                 
-                var response = try {
-                    val primaryModel = GenerativeModel(
-                        modelName = "gemini-3.1-pro-preview",
-                        apiKey = apiKey
-                    )
-                    primaryModel.generateContent(prompt)
-                } catch (e: Exception) {
-                    if (e.message?.contains("429") == true) {
-                        val backupModel = GenerativeModel(
-                            modelName = "gemini-3-flash-preview",
-                            apiKey = apiKey
-                        )
-                        backupModel.generateContent(prompt)
-                    } else {
-                        throw e
+                val modelsToTry = listOf(
+                    "gemini-3.1-pro-preview",
+                    "gemini-3-flash-preview",
+                    "gemini-1.5-flash"
+                )
+
+                var lastError: Exception? = null
+                var responseText: String? = null
+
+                for (modelName in modelsToTry) {
+                    try {
+                        val model = GenerativeModel(modelName = modelName, apiKey = apiKey)
+                        val response = model.generateContent(prompt)
+                        responseText = response.text
+                        if (responseText != null) break
+                    } catch (e: Exception) {
+                        lastError = e
+                        val errorMsg = e.message ?: ""
+                        // If it's not a quota/rate limit error, don't bother trying other models
+                        if (!errorMsg.contains("429") && !errorMsg.contains("quota", ignoreCase = true)) {
+                            break
+                        }
                     }
                 }
 
-                val reviewText = response.text ?: "No review generated."
+                if (responseText == null) {
+                    throw lastError ?: Exception("No review generated and no error captured.")
+                }
+
+                val reviewText = responseText ?: "No review generated."
 
                 withContext(Dispatchers.Main) {
                     val draft = """
