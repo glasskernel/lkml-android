@@ -15,11 +15,12 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.IntOffset
 import app.k9mail.core.ui.compose.designsystem.atom.DividerHorizontal
 import app.k9mail.core.ui.compose.designsystem.atom.Surface
-import app.k9mail.core.ui.compose.designsystem.template.LiquidGlassDefaults
-import app.k9mail.core.ui.compose.designsystem.template.liquidGlass
 import net.thunderbird.core.ui.compose.common.modifier.testTagAsResourceId
 import net.thunderbird.core.ui.compose.theme2.MainTheme
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayAccount
@@ -35,6 +36,8 @@ import net.thunderbird.feature.navigation.drawer.dropdown.ui.setting.AccountSett
 import net.thunderbird.feature.navigation.drawer.dropdown.ui.setting.FolderSettingList
 
 private const val ANIMATION_DURATION_MS = 200
+private const val DRAWER_GLASS_ALPHA = 0.72f
+private val drawerShape: Shape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp)
 
 @Composable
 internal fun DrawerContent(
@@ -48,10 +51,9 @@ internal fun DrawerContent(
         modifier = modifier
             .width(DRAWER_WIDTH + additionalWidth)
             .fillMaxHeight()
-            .liquidGlass(LiquidGlassDefaults.drawerShape)
             .testTagAsResourceId("DrawerContent"),
-        shape = LiquidGlassDefaults.drawerShape,
-        color = LiquidGlassDefaults.glassColor(MainTheme.colors.surfaceContainerLow),
+        shape = drawerShape,
+        color = MainTheme.colors.surfaceContainerLow.copy(alpha = DRAWER_GLASS_ALPHA),
     ) {
         val selectedAccount = state.accounts.firstOrNull { it.id == state.selectedAccountId }
 
