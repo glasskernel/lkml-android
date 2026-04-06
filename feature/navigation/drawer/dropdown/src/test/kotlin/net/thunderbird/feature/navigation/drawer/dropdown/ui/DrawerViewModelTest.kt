@@ -410,6 +410,18 @@ internal class DrawerViewModelTest {
         }
     }
 
+    @Test
+    fun `should emit OpenChat effect when OnChatClick event is received`() = runMviTest {
+        val testSubject = createTestSubject()
+        val turbines = turbinesWithInitialStateCheck(testSubject, State())
+
+        testSubject.event(Event.OnChatClick)
+
+        turbines.assertThatAndEffectTurbineConsumed {
+            isEqualTo(Effect.OpenChat)
+        }
+    }
+
     private fun createTestSubject(
         initialState: State = State(),
         drawerConfigFlow: Flow<DrawerConfig> = flow { emit(createDrawerConfig()) },

@@ -116,6 +116,7 @@ private fun AccountContent(
             DividerHorizontal()
             AccountSettingList(
                 onAddAccountClick = { onEvent(Event.OnAddAccountClick) },
+                onChatClick = { onEvent(Event.OnChatClick) },
                 onSyncAllAccountsClick = { onEvent(Event.OnSyncAllAccounts) },
                 onSettingsClick = { onEvent(Event.OnSettingsClick) },
                 isLoading = state.isLoading,
@@ -149,6 +150,7 @@ private fun FolderContent(
             )
             DividerHorizontal()
             FolderSettingList(
+                onChatClick = { onEvent(Event.OnChatClick) },
                 onSyncAccountClick = { onEvent(Event.OnSyncAccount) },
                 onManageFoldersClick = { onEvent(Event.OnManageFoldersClick) },
                 onSyncAllAccountsClick = { onEvent(Event.OnSyncAllAccounts) },

@@ -9,6 +9,7 @@ import com.fsck.k9.contacts.contactsModule
 import com.fsck.k9.ui.account.accountUiModule
 import com.fsck.k9.ui.base.uiBaseModule
 import com.fsck.k9.ui.changelog.changelogUiModule
+import com.fsck.k9.ui.chat.chatUiModule
 import com.fsck.k9.ui.choosefolder.chooseFolderUiModule
 import com.fsck.k9.ui.compose.composeModule
 import com.fsck.k9.ui.endtoend.endToEndUiModule
@@ -38,6 +39,7 @@ val legacyUiModules = listOf(
     contactsModule,
     accountModule,
     composeModule,
+    chatUiModule,
     viewModule,
     changelogUiModule,
     messageSourceModule,

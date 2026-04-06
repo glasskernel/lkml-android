@@ -44,6 +44,7 @@ internal interface DrawerContract {
         data class OnAccountViewClick(val account: DisplayAccount) : Event
         data class OnFolderClick(val folder: DisplayFolder) : Event
         data object OnAccountSelectorClick : Event
+        data object OnChatClick : Event
         data object OnManageFoldersClick : Event
         data object OnSettingsClick : Event
         data object OnSyncAccount : Event
@@ -55,6 +56,7 @@ internal interface DrawerContract {
         data class OpenAccount(val accountId: String) : Effect
         data class OpenFolder(val accountId: String, val folderId: Long) : Effect
         data object OpenUnifiedFolder : Effect
+        data object OpenChat : Effect
         data object OpenManageFolders : Effect
         data object OpenSettings : Effect
         data object OpenAddAccount : Effect

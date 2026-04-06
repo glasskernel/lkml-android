@@ -15,6 +15,7 @@ import net.thunderbird.feature.navigation.drawer.dropdown.R
 @Composable
 internal fun AccountSettingList(
     onAddAccountClick: () -> Unit,
+    onChatClick: () -> Unit,
     onSyncAllAccountsClick: () -> Unit,
     onSettingsClick: () -> Unit,
     isLoading: Boolean,
@@ -43,6 +44,13 @@ internal fun AccountSettingList(
                 label = stringResource(id = R.string.navigation_drawer_dropdown_action_add_account),
                 onClick = onAddAccountClick,
                 icon = Icons.Outlined.Add,
+            )
+        }
+        item(span = { if (hideText) GridItemSpan(1) else GridItemSpan(maxLineSpan) }) {
+            SettingListItem(
+                label = stringResource(id = R.string.navigation_drawer_dropdown_action_chat),
+                onClick = onChatClick,
+                icon = Icons.Outlined.Description,
             )
         }
         item(span = { if (hideText) GridItemSpan(1) else GridItemSpan(maxLineSpan) }) {

@@ -51,6 +51,7 @@ import com.fsck.k9.ui.messageview.MessageViewContainerFragment.MessageViewContai
 import com.fsck.k9.ui.messageview.MessageViewFragment.MessageViewFragmentListener
 import com.fsck.k9.ui.messageview.PlaceholderFragment
 import com.fsck.k9.ui.settings.SettingsActivity
+import com.fsck.k9.ui.chat.AiChatActivity
 import com.fsck.k9.view.ViewSwitcher
 import com.fsck.k9.view.ViewSwitcher.OnSwitchCompleteListener
 import com.google.android.material.textview.MaterialTextView
@@ -669,6 +670,7 @@ open class MessageHomeActivity :
             openAddAccount = { launchAddAccountScreen() },
             openFolder = { accountId, folderId -> openFolder(accountId, folderId) },
             openUnifiedFolder = { openUnifiedFolders() },
+            openChat = { launchChatScreen() },
             openManageFolders = { launchManageFoldersScreen() },
             openSettings = { SettingsActivity.launch(this) },
             createDrawerListener = { createDrawerListener() },
@@ -744,6 +746,10 @@ open class MessageHomeActivity :
             context = this,
             target = FeatureLauncherTarget.AccountSetup,
         )
+    }
+
+    private fun launchChatScreen() {
+        startActivity(AiChatActivity.createLaunchIntent(this))
     }
 
     fun openRealAccount(accountId: String) {

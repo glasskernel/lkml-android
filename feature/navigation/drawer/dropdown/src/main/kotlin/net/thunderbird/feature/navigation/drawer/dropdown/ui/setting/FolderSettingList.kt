@@ -14,6 +14,7 @@ import net.thunderbird.feature.navigation.drawer.dropdown.R
 
 @Composable
 internal fun FolderSettingList(
+    onChatClick: () -> Unit,
     onSyncAccountClick: () -> Unit,
     onManageFoldersClick: () -> Unit,
     onSyncAllAccountsClick: () -> Unit,
@@ -57,6 +58,13 @@ internal fun FolderSettingList(
                     isLoading = isLoading,
                 )
             }
+        }
+        item(span = { if (hideText) GridItemSpan(1) else GridItemSpan(maxLineSpan) }) {
+            SettingListItem(
+                label = stringResource(id = R.string.navigation_drawer_dropdown_action_chat),
+                onClick = onChatClick,
+                icon = Icons.Outlined.Description,
+            )
         }
         item(span = { if (hideText) GridItemSpan(1) else GridItemSpan(maxLineSpan) }) {
             SettingListItem(
