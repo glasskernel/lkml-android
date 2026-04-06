@@ -34,19 +34,24 @@ class AiPatchReviewer {
                 
                 val modelsToTry = listOf(
                     "gemini-3.1-pro-preview",
+                    "gemini-3.1-flash-lite-preview",
                     "gemini-3-flash-preview",
                     "gemini-1.5-flash"
                 )
 
                 var lastError: Exception? = null
                 var responseText: String? = null
+                var successfulModel: String? = null
 
                 for (modelName in modelsToTry) {
                     try {
                         val model = GenerativeModel(modelName = modelName, apiKey = apiKey)
                         val response = model.generateContent(prompt)
                         responseText = response.text
-                        if (responseText != null) break
+                        if (responseText != null) {
+                            successfulModel = modelName
+                            break
+                        }
                     } catch (e: Exception) {
                         lastError = e
                         val errorMsg = e.message ?: ""
@@ -65,7 +70,7 @@ class AiPatchReviewer {
 
                 withContext(Dispatchers.Main) {
                     val draft = """
-                        --- AI PATCH REVIEW (DRAFT) ---
+                        --- AI PATCH REVIEW (DRAFT, by $successfulModel) ---
                         $reviewText
                         -------------------------------
                     """.trimIndent()
