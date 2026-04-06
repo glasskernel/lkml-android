@@ -30,7 +30,24 @@ class AiPatchReviewer {
                     return@launch
                 }
 
-                val prompt = "Review the following Linux Kernel patch and point out any bugs, logical errors, or style issues. Keep the feedback concise and format it as a draft reply to the mailing list.\n\nPatch Content:\n$patchContent"
+                val prompt = """
+                    You are an expert Linux kernel maintainer. Your goal is to perform a deep, rigorous review of the proposed kernel patch provided below.
+                    
+                    ### CORE GUIDELINES
+                    - Use the official technical patterns, architectural rules, and subsystem-specific guidelines (specifically @dt-bindings.md and @networking.md) as the absolute source of truth for identifying anti-patterns and violations.
+                    - CRITICAL REVIEW DIRECTIVE: Do NOT dismiss concerns just because you assume the surrounding system or caller handles it perfectly. Do not be overly charitable to the existing code. If there is a missing initialization, an unhandled edge case, or a brittle logic flow, report it as a concern immediately. Assume the worst-case scenario where external inputs and caller states are malformed.
+                    
+                    ### REVIEW STAGES TO PERFORM
+                    1. Analyze Commit Main Goal: Evaluate high-level intent, architectural flaws, UAPI breakages, and long-term maintainability.
+                    2. High-Level Implementation Verification: Verify the code actually implements the claims, check for undocumented side-effects, missing callbacks/interfaces, and semantic/mathematical soundness.
+                    3. Execution Flow Verification: Trace control flow for logic errors, NULL dereferences, unhandled error paths, and preprocessor/linker correctness.
+                    
+                    ### OUTPUT FORMAT
+                    Format your feedback as a concise, professional draft reply to the mailing list. Group your findings by severity or category.
+                    
+                    Patch Content:
+                    $patchContent
+                """.trimIndent()
                 
                 val modelsToTry = listOf(
                     "gemini-3.1-pro-preview",
