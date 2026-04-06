@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.DialogProperties
 import app.k9mail.core.ui.compose.designsystem.atom.DividerHorizontal
 import app.k9mail.core.ui.compose.designsystem.atom.Surface
+import app.k9mail.core.ui.compose.designsystem.template.LiquidGlassDefaults
+import app.k9mail.core.ui.compose.designsystem.template.liquidGlass
 import app.k9mail.core.ui.compose.designsystem.atom.text.TextBodyMedium
 import app.k9mail.core.ui.compose.designsystem.atom.text.TextHeadlineSmall
 import net.thunderbird.core.ui.compose.theme2.MainTheme
@@ -96,9 +98,12 @@ internal fun BasicDialogContent(
     showDividers: Boolean = BasicDialogDefaults.showDividers,
     dividerColor: Color = BasicDialogDefaults.dividerColor,
 ) {
+    val dialogShape = MainTheme.shapes.extraLarge
+
     Surface(
-        modifier = modifier,
-        shape = MainTheme.shapes.extraLarge,
+        modifier = modifier.liquidGlass(dialogShape),
+        shape = dialogShape,
+        color = LiquidGlassDefaults.emphasizedColor(MainTheme.colors.surfaceContainerHigh),
     ) {
         Column {
             Column(

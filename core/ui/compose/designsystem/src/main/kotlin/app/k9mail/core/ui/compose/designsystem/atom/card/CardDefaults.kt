@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import app.k9mail.core.ui.compose.designsystem.template.LiquidGlassDefaults
 import net.thunderbird.core.ui.compose.theme2.MainTheme
 import androidx.compose.material3.CardDefaults as Material3CardDefaults
 
@@ -133,14 +134,14 @@ object CardDefaults {
      */
     @Composable
     fun cardColors(
-        containerColor: Color = Color.Unspecified,
+        containerColor: Color = MainTheme.colors.surfaceContainerLow,
         contentColor: Color = contentColorFor(backgroundColor = containerColor),
-        disabledContainerColor: Color = Color.Unspecified,
+        disabledContainerColor: Color = containerColor,
         disabledContentColor: Color = contentColor.copy(alpha = DISABLED_ALPHA),
     ): CardColors = Material3CardDefaults.cardColors(
-        containerColor = containerColor,
+        containerColor = LiquidGlassDefaults.glassColor(containerColor),
         contentColor = contentColor,
-        disabledContainerColor = disabledContainerColor,
+        disabledContainerColor = LiquidGlassDefaults.subtleColor(disabledContainerColor),
         disabledContentColor = disabledContentColor,
     ).toCardColors()
 
@@ -162,14 +163,14 @@ object CardDefaults {
      */
     @Composable
     fun elevatedCardColors(
-        containerColor: Color = Color.Unspecified,
+        containerColor: Color = MainTheme.colors.surfaceContainerHigh,
         contentColor: Color = contentColorFor(backgroundColor = containerColor),
-        disabledContainerColor: Color = Color.Unspecified,
+        disabledContainerColor: Color = containerColor,
         disabledContentColor: Color = contentColor.copy(alpha = DISABLED_ALPHA),
     ): CardColors = Material3CardDefaults.elevatedCardColors(
-        containerColor = containerColor,
+        containerColor = LiquidGlassDefaults.emphasizedColor(containerColor),
         contentColor = contentColor,
-        disabledContainerColor = disabledContainerColor,
+        disabledContainerColor = LiquidGlassDefaults.subtleColor(disabledContainerColor),
         disabledContentColor = disabledContentColor,
     ).toCardColors()
 
@@ -191,14 +192,14 @@ object CardDefaults {
      */
     @Composable
     fun outlinedCardColors(
-        containerColor: Color = Color.Unspecified,
+        containerColor: Color = MainTheme.colors.surfaceContainer,
         contentColor: Color = contentColorFor(backgroundColor = containerColor),
-        disabledContainerColor: Color = Color.Unspecified,
-        disabledContentColor: Color = contentColorFor(backgroundColor = containerColor).copy(alpha = DISABLED_ALPHA),
+        disabledContainerColor: Color = containerColor,
+        disabledContentColor: Color = contentColor.copy(alpha = DISABLED_ALPHA),
     ): CardColors = Material3CardDefaults.outlinedCardColors(
-        containerColor = containerColor,
+        containerColor = LiquidGlassDefaults.subtleColor(containerColor),
         contentColor = contentColor,
-        disabledContainerColor = disabledContainerColor,
+        disabledContainerColor = LiquidGlassDefaults.subtleColor(disabledContainerColor),
         disabledContentColor = disabledContentColor,
     ).toCardColors()
 

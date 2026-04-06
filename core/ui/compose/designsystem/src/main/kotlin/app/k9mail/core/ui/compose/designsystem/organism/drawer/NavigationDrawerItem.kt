@@ -7,7 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import app.k9mail.core.ui.compose.designsystem.atom.text.TextLabelLarge
+import app.k9mail.core.ui.compose.designsystem.template.LiquidGlassDefaults
+import app.k9mail.core.ui.compose.designsystem.template.liquidGlass
 import androidx.compose.material3.NavigationDrawerItem as Material3NavigationDrawerItem
+import net.thunderbird.core.ui.compose.theme2.MainTheme
 
 /**
  * A navigation drawer item that can be used in a navigation drawer.
@@ -104,8 +107,19 @@ fun NavigationDrawerItem(
         onClick = onClick,
         modifier = Modifier
             .padding(NavigationDrawerItemDefaults.ItemPadding)
-            .then(modifier),
+            .then(modifier)
+            .liquidGlass(LiquidGlassDefaults.itemShape),
         icon = icon,
         badge = badge,
+        colors = NavigationDrawerItemDefaults.colors(
+            selectedContainerColor = LiquidGlassDefaults.glassColor(MainTheme.colors.secondaryContainer),
+            unselectedContainerColor = LiquidGlassDefaults.subtleColor(MainTheme.colors.surfaceContainerLow),
+            selectedIconColor = MainTheme.colors.onSecondaryContainer,
+            unselectedIconColor = MainTheme.colors.onSurfaceVariant,
+            selectedTextColor = MainTheme.colors.onSecondaryContainer,
+            unselectedTextColor = MainTheme.colors.onSurface,
+            selectedBadgeColor = MainTheme.colors.onSecondaryContainer,
+            unselectedBadgeColor = MainTheme.colors.onSurfaceVariant,
+        ),
     )
 }
