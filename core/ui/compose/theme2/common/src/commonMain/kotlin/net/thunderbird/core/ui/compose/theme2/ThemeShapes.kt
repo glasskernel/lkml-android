@@ -28,11 +28,11 @@ import androidx.compose.ui.unit.dp
  */
 @Immutable
 data class ThemeShapes(
-    val extraSmall: CornerBasedShape = RoundedCornerShape(8.dp),
-    val small: CornerBasedShape = RoundedCornerShape(12.dp),
-    val medium: CornerBasedShape = RoundedCornerShape(18.dp),
-    val large: CornerBasedShape = RoundedCornerShape(24.dp),
-    val extraLarge: CornerBasedShape = RoundedCornerShape(32.dp),
+    val extraSmall: CornerBasedShape = RoundedCornerShape(4.dp),
+    val small: CornerBasedShape = RoundedCornerShape(8.dp),
+    val medium: CornerBasedShape = RoundedCornerShape(12.dp),
+    val large: CornerBasedShape = RoundedCornerShape(16.dp),
+    val extraLarge: CornerBasedShape = RoundedCornerShape(28.dp),
 )
 
 /**

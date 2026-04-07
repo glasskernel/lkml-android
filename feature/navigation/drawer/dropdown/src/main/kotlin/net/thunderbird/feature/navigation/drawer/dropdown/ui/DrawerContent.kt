@@ -14,12 +14,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import app.k9mail.core.ui.compose.designsystem.atom.DividerHorizontal
 import app.k9mail.core.ui.compose.designsystem.atom.Surface
-import app.k9mail.core.ui.compose.designsystem.template.LiquidGlassDefaults
-import app.k9mail.core.ui.compose.designsystem.template.liquidGlass
 import net.thunderbird.core.ui.compose.common.modifier.testTagAsResourceId
 import net.thunderbird.core.ui.compose.theme2.MainTheme
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayAccount
@@ -48,10 +45,8 @@ internal fun DrawerContent(
         modifier = modifier
             .width(DRAWER_WIDTH + additionalWidth)
             .fillMaxHeight()
-            .liquidGlass(LiquidGlassDefaults.drawerShape)
             .testTagAsResourceId("DrawerContent"),
-        shape = LiquidGlassDefaults.drawerShape,
-        color = LiquidGlassDefaults.glassColor(MainTheme.colors.surfaceContainerLow),
+        color = MainTheme.colors.surfaceContainerLow,
     ) {
         val selectedAccount = state.accounts.firstOrNull { it.id == state.selectedAccountId }
 
@@ -106,7 +101,7 @@ private fun AccountContent(
     selectedAccount: DisplayAccount?,
 ) {
     Surface(
-        color = Color.Transparent,
+        color = MainTheme.colors.surfaceContainerLow,
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -138,7 +133,7 @@ private fun FolderContent(
     val isUnifiedAccount = state.accounts.firstOrNull { it.id == state.selectedAccountId } is UnifiedDisplayAccount
 
     Surface(
-        color = Color.Transparent,
+        color = MainTheme.colors.surfaceContainerLow,
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

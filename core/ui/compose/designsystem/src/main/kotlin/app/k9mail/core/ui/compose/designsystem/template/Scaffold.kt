@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import androidx.compose.material3.FabPosition as Material3FabPosition
@@ -26,15 +25,12 @@ fun Scaffold(
 
     CompositionLocalProvider(LocalHazeState provides hazeState) {
         Material3Scaffold(
-            modifier = modifier
-                .liquidGlassBackdrop()
-                .haze(hazeState),
+            modifier = modifier.haze(hazeState),
             topBar = topBar,
             bottomBar = bottomBar,
             snackbarHost = snackbarHost,
             floatingActionButton = floatingActionButton,
             floatingActionButtonPosition = floatingActionButtonPosition.toMaterialFabPosition(),
-            containerColor = Color.Transparent,
             content = content,
         )
     }

@@ -7,10 +7,7 @@ import androidx.compose.ui.text.style.TextAlign
 import app.k9mail.core.ui.compose.designsystem.atom.button.ButtonText
 import app.k9mail.core.ui.compose.designsystem.atom.text.TextBodyMedium
 import app.k9mail.core.ui.compose.designsystem.atom.text.TextHeadlineSmall
-import app.k9mail.core.ui.compose.designsystem.template.LiquidGlassDefaults
-import app.k9mail.core.ui.compose.designsystem.template.liquidGlass
 import net.thunderbird.core.ui.compose.designsystem.atom.icon.Icon
-import net.thunderbird.core.ui.compose.theme2.MainTheme
 import androidx.compose.material3.AlertDialog as MaterialAlertDialog
 
 @Composable
@@ -54,8 +51,6 @@ fun AlertDialog(
     confirmButtonEnabled: Boolean = true,
     content: @Composable () -> Unit,
 ) {
-    val dialogShape = MainTheme.shapes.extraLarge
-
     MaterialAlertDialog(
         title = {
             TextHeadlineSmall(
@@ -85,11 +80,6 @@ fun AlertDialog(
             }
         },
         onDismissRequest = onDismissRequest,
-        modifier = modifier.liquidGlass(dialogShape),
-        shape = dialogShape,
-        containerColor = LiquidGlassDefaults.emphasizedColor(MainTheme.colors.surfaceContainerHigh),
-        iconContentColor = MainTheme.colors.onSurfaceVariant,
-        titleContentColor = MainTheme.colors.onSurface,
-        textContentColor = MainTheme.colors.onSurfaceVariant,
+        modifier = modifier,
     )
 }

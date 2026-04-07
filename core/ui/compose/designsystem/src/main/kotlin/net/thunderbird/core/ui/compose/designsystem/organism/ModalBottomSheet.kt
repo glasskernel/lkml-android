@@ -5,9 +5,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import app.k9mail.core.ui.compose.designsystem.template.LiquidGlassDefaults
-import app.k9mail.core.ui.compose.designsystem.template.liquidGlass
-import net.thunderbird.core.ui.compose.theme2.MainTheme
+import androidx.compose.ui.graphics.Color
+import app.k9mail.core.ui.compose.designsystem.template.LocalHazeState
+import dev.chrisbanes.haze.hazeChild
 import androidx.compose.material3.ModalBottomSheet as MaterialModalBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,14 +18,12 @@ fun ModalBottomSheet(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState()
-    val sheetShape = LiquidGlassDefaults.sheetShape
 
     MaterialModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        modifier = modifier.liquidGlass(sheetShape),
-        shape = sheetShape,
-        containerColor = LiquidGlassDefaults.emphasizedColor(MainTheme.colors.surfaceContainerHigh),
+        modifier = modifier.hazeChild(LocalHazeState.current),
+        containerColor = Color.Transparent,
         content = content,
     )
 }

@@ -6,7 +6,6 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import app.k9mail.core.ui.compose.designsystem.template.liquidGlass
 
 @Composable
 fun CardOutlined(
@@ -18,12 +17,10 @@ fun CardOutlined(
     border: BorderStroke = CardDefaults.outlinedCardBorder(),
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val glassModifier = modifier.liquidGlass(shape)
-
     if (onClick != null) {
         OutlinedCard(
             onClick = onClick,
-            modifier = glassModifier,
+            modifier = modifier,
             shape = shape,
             colors = colors.toMaterial3CardColors(),
             elevation = elevation.toMaterial3CardElevation(),
@@ -32,7 +29,7 @@ fun CardOutlined(
         )
     } else {
         OutlinedCard(
-            modifier = glassModifier,
+            modifier = modifier,
             shape = shape,
             colors = colors.toMaterial3CardColors(),
             elevation = elevation.toMaterial3CardElevation(),

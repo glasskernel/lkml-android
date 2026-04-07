@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import app.k9mail.core.ui.compose.designsystem.template.liquidGlass
 import androidx.compose.material3.ElevatedCard as Material3ElevatedCard
 
 @Composable
@@ -16,12 +15,10 @@ fun CardElevated(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val glassModifier = modifier.liquidGlass(shape)
-
     if (onClick != null) {
         Material3ElevatedCard(
             onClick = onClick,
-            modifier = glassModifier,
+            modifier = modifier,
             shape = shape,
             colors = colors.toMaterial3CardColors(),
             elevation = elevation.toMaterial3CardElevation(),
@@ -29,7 +26,7 @@ fun CardElevated(
         )
     } else {
         Material3ElevatedCard(
-            modifier = glassModifier,
+            modifier = modifier,
             shape = shape,
             colors = colors.toMaterial3CardColors(),
             elevation = elevation.toMaterial3CardElevation(),
