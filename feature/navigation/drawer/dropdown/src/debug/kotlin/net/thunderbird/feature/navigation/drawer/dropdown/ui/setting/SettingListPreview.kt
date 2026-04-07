@@ -9,7 +9,6 @@ import app.k9mail.core.ui.compose.designsystem.PreviewWithTheme
 internal fun SettingListPreview() {
     PreviewWithTheme {
         FolderSettingList(
-            onChatClick = {},
             onSyncAccountClick = {},
             onManageFoldersClick = {},
             onSyncAllAccountsClick = {},
@@ -25,7 +24,6 @@ internal fun SettingListPreview() {
 internal fun SettingListWithUnifiedAccountPreview() {
     PreviewWithTheme {
         FolderSettingList(
-            onChatClick = {},
             onSyncAccountClick = {},
             onManageFoldersClick = {},
             onSyncAllAccountsClick = {},
